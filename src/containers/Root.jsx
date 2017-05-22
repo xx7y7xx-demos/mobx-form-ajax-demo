@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Root = () => (
-  <div>Hello React Hot Loader!</div>
+  <div>aaaa111122Hello React Haot Loader!</div>
 );
 
 export default Root;

@@ -1,15 +1,11 @@
 {
   "presets": [
-    [
-      "latest", {
-        "es2015": {
-          "modules": false
-        }
-      }
-    ],
-    "react"
+    "react",
+    "es2015",
+    "stage-1"
   ],
   "plugins": [
+    "transform-decorators-legacy",
     "react-hot-loader/babel"
   ]
 }

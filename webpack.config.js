@@ -1,4 +1,4 @@
-// const webpack = require('webpack');
+const webpack = require('webpack');
 const path = require('path');
 
 module.exports = {
@@ -16,7 +16,14 @@ module.exports = {
   },
   module: {
     rules: [
-      { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
+      {
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+      },
     ],
+  },
+  resolve: {
+    extensions: ['.js', '.jsx'],
   },
 };
