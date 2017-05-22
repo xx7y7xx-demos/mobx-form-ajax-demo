@@ -6,6 +6,11 @@ import { observer } from 'mobx-react';
 import validatorjs from 'validatorjs';
 import MobxReactForm from 'mobx-react-form';
 
+import users from '../stores/users';
+
+import Loading from './Loading';
+import Posts from './Posts';
+
 const plugins = { dvr: validatorjs };
 
 const fields = [{
@@ -37,12 +42,27 @@ class App extends Component {
     super(props);
     this.mformInstance = new MyForm({ fields }, { plugins });
   }
+  componentWillMount() {
+    users.fetch();
+  }
   onReset = () => {
     this.props.appState.resetTimer();
+  }
+  renderContent = () => {
+    if (users.isRequest('fetching')) {
+      return (
+        <Loading label="application" />
+      );
+    }
+
+    return <Posts />;
   }
   render() {
     return (
       <div>
+        <div className="App__body">
+          {this.renderContent()}
+        </div>
         <button onClick={this.onReset}>
           Seconds passed: {this.props.appState.timer}
         </button>
