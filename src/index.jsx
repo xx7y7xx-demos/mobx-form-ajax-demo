@@ -10,7 +10,7 @@ const appState = new AppState();
 const render = (Component, state) => {
   ReactDOM.render(
     <AppContainer>
-      <Component state={state} />
+      <Component appState={state} />
     </AppContainer>,
     document.getElementById('root'),
   );

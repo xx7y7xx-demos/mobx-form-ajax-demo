@@ -1,7 +1,23 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { observer } from 'mobx-react';
+// import DevTools from 'mobx-react-devtools';
 
-const Root = () => (
-  <div>Hello React Hot Loader!</div>
-);
+@observer
+class App extends Component {
+  render() {
+    return (
+      <div>
+        <button onClick={this.onReset}>
+          Seconds passed: {this.props.appState.timer}
+        </button>
+        {/* <DevTools />*/}
+      </div>
+    );
+  }
 
-export default Root;
+  onReset = () => {
+    this.props.appState.resetTimer();
+  }
+};
+
+export default App;
