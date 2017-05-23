@@ -1,30 +1,46 @@
 import React, { Component } from 'react';
-import { observer } from 'mobx-react';
-import posts from '../stores/posts';
+import { shape } from 'prop-types';
+import { observer, PropTypes } from 'mobx-react';
+
 import Post from './Post';
 import Loading from './Loading';
 
 @observer
 class Posts extends Component {
-  componentWillMount () {
-    posts.fetch()
+  componentWillMount() {
   }
 
   render() {
+    const { posts } = this.props;
     if (posts.isRequest('fetching')) {
-      return <Loading label='posts' />
+      return <Loading label="posts" />;
     }
 
     return (
-      <div className='Posts'>
-        {
-          posts.models.map(post => (
-            <Post key={post.id} post={post} />
-          ))
-        }
-      </div>
+      <table className="posts">
+        <thead>
+          <tr>
+            <th className="title">Title</th>
+            <th className="body">Body</th>
+            <th>Operations</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            posts.models.map(post => (
+              <Post key={post.id} post={post} />
+            ))
+          }
+        </tbody>
+      </table>
     );
   }
 }
+
+Posts.propTypes = {
+  posts: shape({
+    models: PropTypes.observableArray.isRequired,
+  }).isRequired,
+};
 
 export default Posts;

@@ -7,25 +7,36 @@ import validatorjs from 'validatorjs';
 import MobxReactForm from 'mobx-react-form';
 
 import users from '../stores/users';
+import posts from '../stores/posts';
 
 import Loading from './Loading';
 import Posts from './Posts';
 
 const plugins = { dvr: validatorjs };
 
-const fields = [{
-  name: 'email',
-  label: 'Email',
-  placeholder: 'Insert Email',
-  rules: 'required|email|string|between:5,25',
-}];
+const fields = [
+  {
+    name: 'title',
+    label: 'Title',
+    placeholder: 'Insert title',
+    rules: 'required',
+  },
+  {
+    name: 'body',
+    label: 'Body',
+    placeholder: 'Insert body',
+    rules: 'required|between:1,200',
+  },
+];
 
 class MyForm extends MobxReactForm {
 
   onSuccess(form) {
-    alert('Form is valid! Send the request here.');
     // get field values
-    console.log('Form Values!', form.values());
+    // console.log('Form Values!', form.values());
+    posts.create({
+      ...form.values(),
+    });
   }
 
   onError(form) {
@@ -44,6 +55,7 @@ class App extends Component {
   }
   componentWillMount() {
     users.fetch();
+    posts.fetch();
   }
   onReset = () => {
     this.props.appState.resetTimer();
@@ -55,33 +67,45 @@ class App extends Component {
       );
     }
 
-    return <Posts />;
+    return <Posts posts={posts} />;
   }
   render() {
+    const titleField = this.mformInstance.$('title');
+    const bodyField = this.mformInstance.$('body');
     return (
       <div>
-        <div className="App__body">
-          {this.renderContent()}
-        </div>
         <button onClick={this.onReset}>
           Seconds passed: {this.props.appState.timer}
         </button>
         <hr />
         <form onSubmit={this.mformInstance.onSubmit}>
-          <label htmlFor={this.mformInstance.$('email').id}>
-            {this.mformInstance.$('email').label}
-          </label>
-          <input
-            {...this.mformInstance.$('email').bind()}
-          />
-          <p>{this.mformInstance.$('email').error}</p>
-
+          <div>
+            <label htmlFor={titleField.id}>
+              {titleField.label}
+            </label>
+            <input
+              {...titleField.bind()}
+            />
+            <p className="error">{titleField.error}</p>
+          </div>
+          <div>
+            <label htmlFor={bodyField.id}>
+              {bodyField.label}
+            </label>
+            <textarea
+              {...bodyField.bind()}
+            />
+            <p className="error">{bodyField.error}</p>
+          </div>
           <button type="submit" onClick={this.mformInstance.onSubmit}>Submit</button>
           <button type="button" onClick={this.mformInstance.onClear}>Clear</button>
           <button type="button" onClick={this.mformInstance.onReset}>Reset</button>
 
-          <p>{this.mformInstance.error}</p>
+          <p className="error">{this.mformInstance.error}</p>
         </form>
+        <div className="App__body">
+          {this.renderContent()}
+        </div>
         {/* <DevTools />*/}
       </div>
     );

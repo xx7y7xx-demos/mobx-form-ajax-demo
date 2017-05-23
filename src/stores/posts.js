@@ -1,8 +1,9 @@
 import { Collection, Model } from 'mobx-rest';
+// import { PropTypes } from 'mobx-react';
 import users from './users';
 
 class PostModel extends Model {
-  get user () {
+  get user() {
     return users.get(this.get('userId')) ||
       users.build({ name: 'Unknown user' }); // null object
   }
@@ -10,8 +11,13 @@ class PostModel extends Model {
 
 class PostsCollection extends Collection {
   // url () { return '/posts'; }
-  url () { return '/mobx/posts'; }
-  model () { return PostModel; }
+  url() { return '/mobx/posts'; }
+  model() { return PostModel; }
+  // shape() {
+  //   return PropTypes.shape({
+  //     posts: PropTypes.observableArray.isRequired,
+  //   });
+  // }
 }
 
 // singleton
