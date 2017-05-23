@@ -10,7 +10,8 @@ import Root from './containers/Root';
 import AppState from './stores/AppState';
 
 // Initialize mob-rest API adapter
-const apiPath = 'https://jsonplaceholder.typicode.com';
+// const apiPath = 'https://jsonplaceholder.typicode.com';
+const apiPath = 'http://localhost:3009';
 apiClient(adapter, { apiPath });
 
 const appState = new AppState();

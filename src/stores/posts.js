@@ -9,7 +9,8 @@ class PostModel extends Model {
 }
 
 class PostsCollection extends Collection {
-  url () { return '/posts'; }
+  // url () { return '/posts'; }
+  url () { return '/mobx/posts'; }
   model () { return PostModel; }
 }
 

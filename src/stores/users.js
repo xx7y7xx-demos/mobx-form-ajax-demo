@@ -36,7 +36,8 @@ class UserModel extends Model {
 }
 
 class UsersCollection extends Collection {
-  url() { return '/users'; }
+  // url() { return '/users'; }
+  url() { return '/mobx/users'; }
   model() { return UserModel; }
 }
 
